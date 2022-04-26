@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:switch_theme/blocs/theme/theme_bloc.dart';
 import 'package:switch_theme/theme/themes.dart';
 
 void main() {
   runApp(
-    const MyApp(),
+    BlocProvider(
+      create: (context) => ThemeBloc(),
+      child: const MyApp(),
+    ),
   );
 }
 
@@ -13,13 +18,17 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: getThemeDataFromAppTheme(
-        context: context,
-        theme: AppTheme.light,
-      ),
-      home: const MyHomePage(title: 'Switch theme demo'),
+    return BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (context, state) {
+        return MaterialApp(
+          title: 'Flutter Demo',
+          theme: getThemeDataFromAppTheme(
+            context: context,
+            theme: state.theme,
+          ),
+          home: const MyHomePage(title: 'Switch theme demo'),
+        );
+      },
     );
   }
 }
@@ -50,8 +59,25 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
+            const SizedBox(height: 80),
+            BlocBuilder<ThemeBloc, ThemeState>(
+              builder: (context, state) {
+                return SwitchListTile(
+                  title: const Text('Dark theme'),
+                  value: state.theme == AppTheme.dark,
+                  onChanged: (bool value) {
+                    BlocProvider.of<ThemeBloc>(context).add(
+                      ChangeThemeEvent(
+                        theme: value ? AppTheme.dark : AppTheme.light,
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+            const SizedBox(height: 32),
             ElevatedButton(
               onPressed: () {},
               child: const Text("Press me"),

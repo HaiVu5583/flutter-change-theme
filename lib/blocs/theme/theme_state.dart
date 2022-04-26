@@ -1,14 +1,15 @@
-// part of 'theme_bloc.dart';
+part of 'theme_bloc.dart';
 
-// enum AppTheme {
-//   light,
-//   dark,
-// }
+class ThemeState extends Equatable {
+  final AppTheme theme;
+  const ThemeState({this.theme = AppTheme.light});
 
-// // class ThemeState extends Equatable {
-// //   final AppTheme theme;
-// //   const ThemeState({});
+  ThemeState copyWith({required AppTheme theme}) {
+    return ThemeState(
+      theme: theme,
+    );
+  }
 
-// //   @override
-// //   List<Object> get props => [];
-// // }
+  @override
+  List<Object> get props => [theme];
+}

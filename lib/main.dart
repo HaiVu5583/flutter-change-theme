@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:switch_theme/blocs/theme/theme_bloc.dart';
@@ -22,9 +24,8 @@ class MyApp extends StatelessWidget {
       builder: (context, state) {
         return MaterialApp(
           title: 'Flutter Demo',
-          theme: getThemeDataFromAppTheme(
+          theme: getCurrentThemeData(
             context: context,
-            theme: state.theme,
           ),
           home: const MyHomePage(title: 'Switch theme demo'),
         );
@@ -77,6 +78,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
               },
             ),
+            const SizedBox(height: 32),
+            Text(getCurrentThemeColorData(context: context).toString()),
             const SizedBox(height: 32),
             ElevatedButton(
               onPressed: () {},

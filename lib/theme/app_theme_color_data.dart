@@ -13,4 +13,9 @@ class AppThemeColorData {
     required this.background,
     required this.onSurface,
   });
+
+  @override
+  String toString() {
+    return "Primary: ${primary.toString()}\nonPrimary: ${onPrimary.toString()}\nsurface: ${surface.toString()}\nonSurface: ${onSurface.toString()}\nbackground: ${background.toString()}";
+  }
 }

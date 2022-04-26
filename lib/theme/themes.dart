@@ -1,7 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:switch_theme/blocs/theme/theme_bloc.dart';
 import 'package:switch_theme/theme/app_theme_color_data.dart';
 import 'package:switch_theme/theme/text.dart';
 
@@ -28,10 +30,18 @@ final Map<AppTheme, AppThemeColorData> appThemes = {
   AppTheme.dark: darkThemeColorData,
 };
 
-ThemeData getThemeDataFromAppTheme({
+AppThemeColorData getCurrentThemeColorData({
   required BuildContext context,
-  required AppTheme theme,
 }) {
+  final theme = BlocProvider.of<ThemeBloc>(context).state.theme;
+  final currentAppThemeColor = appThemes[theme]!;
+  return currentAppThemeColor;
+}
+
+ThemeData getCurrentThemeData({
+  required BuildContext context,
+}) {
+  final theme = BlocProvider.of<ThemeBloc>(context).state.theme;
   final currentAppThemeColor = appThemes[theme]!;
   final ThemeData base = ThemeData.light();
   return base.copyWith(
